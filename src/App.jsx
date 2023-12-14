@@ -6,7 +6,7 @@ import * as tf from '@tensorflow/tfjs';
 
 function App() {
   // tf.setBackend('webgl');
-  // console.log(tf.getBackend())
+  console.log(tf.getBackend())
 
   const [isModelLoading, setIsModelLoading] = useState(false)
   const [model, setModel] = useState(null)
@@ -42,10 +42,15 @@ function App() {
 
   
   const identify = async () => {
-    // textInputRef.current.value = ''
-    const results = await model.classify(imageRef.current)
-    setResults(results)
-}
+      // textInputRef.current.value = ''
+      const results = await model.classify(imageRef.current)
+      setResults(results)
+  }
+
+  const handleOnChange = (e) => {
+    setImageURL(e.target.value)
+    setResults([])
+  }
 
   useEffect(() => {
       loadModel()
@@ -60,27 +65,29 @@ function App() {
       <div className='App'>
         <h1 className='header'>Image ID</h1>
         <div className='inputHolder'>
-                <input type='file' accept='image/*' capture='camera' className='uploadInput' onChange={uploadImage}  ref={fileInputRef} />
-                {/* <button className='uploadImage' >Upload Image</button> */}
-            </div>
-            <div className="mainWrapper">
-                <div className="mainContent">
-                    <div className="imageHolder">
-                        {imageURL && <img src={imageURL} alt="Upload Preview" crossOrigin="anonymous" ref={imageRef} />}
-                    </div>
-                    {results.length > 0 && <div className='resultsHolder'>
-                        {results.map((result, index) => {
-                            return (
-                                <div className='result' key={result.className}>
-                                    <span className='name'>{result.className}</span>
-                                    <span className='confidence'>Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
-                                </div>
-                            )
-                        })}
-                    </div>}
+          <input type='file' accept='image/*' capture='camera' className='uploadInput' onChange={uploadImage}  ref={fileInputRef} />
+          {/* <button className='uploadImage' >Upload Image</button> */}
+          <span className='or'>OR</span>
+          <input type="text" placeholder='Paster image URL' ref={textInputRef} onChange={handleOnChange} />
+        </div>
+        <div className="mainWrapper">
+            <div className="mainContent">
+                <div className="imageHolder">
+                    {imageURL && <img src={imageURL} alt="Upload Preview" crossOrigin="anonymous" ref={imageRef} />}
                 </div>
-                {imageURL && <button className='button' onClick={identify}>Identify Image</button>}
+                {results.length > 0 && <div className='resultsHolder'>
+                    {results.map((result, index) => {
+                        return (
+                            <div className='result' key={result.className}>
+                                <span className='name'>{result.className}</span>
+                                <span className='confidence'>Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
+                            </div>
+                        )
+                    })}
+                </div>}
             </div>
+            {imageURL && <button className='button' onClick={identify}>Identify Image</button>}
+        </div>
       </div>
   );
 }
