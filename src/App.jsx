@@ -5,7 +5,8 @@ import * as tf from '@tensorflow/tfjs';
 
 
 function App() {
-  tf.setBackend('webgl');
+  // tf.setBackend('webgl');
+  // console.log(tf.getBackend())
 
   const [isModelLoading, setIsModelLoading] = useState(false)
   const [model, setModel] = useState(null)
