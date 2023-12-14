@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import * as mobilenet from "@tensorflow-models/mobilenet";
 import * as tf from '@tensorflow/tfjs';
 
-
 function App() {
   // tf.setBackend('webgl');
   console.log(tf.getBackend())
@@ -41,7 +40,7 @@ function App() {
 
   
   const identify = async () => {
-      // textInputRef.current.value = ''
+      textInputRef.current.value = ''
       const results = await model.classify(imageRef.current)
       setResults(results)
   }
@@ -51,9 +50,19 @@ function App() {
     setResults([])
   }
 
+  const triggleUpload = () => {
+    fileInputRef.current.click()
+  }
+
   useEffect(() => {
       loadModel()
   }, [])
+
+  useEffect(() => {
+    if(imageURL){
+      setHistory([imageURL, ...history])
+    }
+  }, [imageURL])
 
   if (isModelLoading) {
       return <h2>Model Loading...</h2>
@@ -62,10 +71,11 @@ function App() {
 
   return (
       <div className='App'>
-        <h1 className='header'>Image ID</h1>
+        <h1 className='header'>Image ID with TensorFlowjs</h1>
         <div className='inputHolder'>
-          <input type='file' accept='image/*' capture='camera' className='uploadInput' onChange={uploadImage}  ref={fileInputRef} />
+          <input type='file' accept='image/*' capture='camera' className='uploadInput hide' onChange={uploadImage}  ref={fileInputRef} />
           {/* <button className='uploadImage' >Upload Image</button> */}
+          <button className='uploadImage' onClick={triggleUpload}>Upload Image</button>
           <span className='or'>OR</span>
           <input type="text" placeholder='Paster image URL' ref={textInputRef} onChange={handleOnChange} />
         </div>
@@ -87,6 +97,18 @@ function App() {
             </div>
             {imageURL && <button className='button' onClick={identify}>Identify Image</button>}
         </div>
+        {history.length > 0 && <div className="recentPredictions">
+            <h2>Recent Images</h2>
+            <div className="recentImages">
+              {history.map((image, index) => {
+                  return (
+                    <div className="recentPrediction" key={`${image}${index}`}>
+                      <img src={image} alt='Recent Prediction' onClick={() => setImageURL(image)} />
+                    </div>
+                  )
+              })}
+            </div>
+          </div>}
       </div>
   );
 }
