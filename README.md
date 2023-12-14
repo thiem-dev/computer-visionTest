@@ -1,8 +1,23 @@
-# React + Vite
+# Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# Personal Notes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Documentations 
+- https://www.tensorflow.org/js/models
+- https://www.tensorflow.org/js/guide/platform_environment
+
+
+-TFJS automatically chooes the backend model based on your hardware
+  - to force backend: `import * as tf from '@tensorflow/tfjs'; tf.setBackend('webgl')`
+  - to check what is set `console.log(tf.getBackend())`
+
+These are the main dependencies: 
+```json
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.15.0",
+    "@tensorflow/tfjs-backend-cpu": "^4.15.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.15.0",
+    "@tensorflow/tfjs-converter": "^4.15.0",
+    "@tensorflow/tfjs-core": "^4.15.0",
+```
