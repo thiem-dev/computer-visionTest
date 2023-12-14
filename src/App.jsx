@@ -8,7 +8,7 @@ function App() {
   // tf.setBackend('webgl');
   console.log(tf.getBackend())
 
-  const [isModelLoading, setIsModelLoading] = useState(false)
+  const [isModelLoading, setIsModelLoading] = useState(true)
   const [model, setModel] = useState(null)
   const [imageURL, setImageURL] = useState(null);
   const [results, setResults] = useState([])
@@ -19,7 +19,6 @@ function App() {
   const fileInputRef = useRef()
 
   const loadModel = async () => {
-      setIsModelLoading(true)
       try {
           const model = await mobilenet.load()
           setModel(model)
