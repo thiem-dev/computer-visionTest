@@ -44,7 +44,6 @@ function App() {
   const identify = async () => {
     // textInputRef.current.value = ''
     const results = await model.classify(imageRef.current)
-    console.log(results)
     setResults(results)
 }
 
@@ -56,7 +55,6 @@ function App() {
       return <h2>Model Loading...</h2>
   }
 
-  console.log(imageURL)
 
   return (
       <div className='App'>
@@ -70,6 +68,16 @@ function App() {
                     <div className="imageHolder">
                         {imageURL && <img src={imageURL} alt="Upload Preview" crossOrigin="anonymous" ref={imageRef} />}
                     </div>
+                    {results.length > 0 && <div className='resultsHolder'>
+                        {results.map((result, index) => {
+                            return (
+                                <div className='result' key={result.className}>
+                                    <span className='name'>{result.className}</span>
+                                    <span className='confidence'>Confidence level: {(result.probability * 100).toFixed(2)}% {index === 0 && <span className='bestGuess'>Best Guess</span>}</span>
+                                </div>
+                            )
+                        })}
+                    </div>}
                 </div>
                 {imageURL && <button className='button' onClick={identify}>Identify Image</button>}
             </div>
