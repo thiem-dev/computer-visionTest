@@ -5,10 +5,11 @@
 
 Documentations 
 - https://www.tensorflow.org/js/models
+- https://www.tensorflow.org/js/guide/platform_environment
 
 
 -TFJS automatically chooes the backend model based on your hardware
-  - to force backend: `tf.setBackend('webgl')`
+  - to force backend: `import * as tf from '@tensorflow/tfjs'; tf.setBackend('webgl')`
   - to check what is set `console.log(tf.getBackend())`
 
 These are the main dependencies: 
